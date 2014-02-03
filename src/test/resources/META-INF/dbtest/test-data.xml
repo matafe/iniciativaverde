@@ -1,0 +1,18 @@
+<dataset>
+	<!-- members -->
+	<member id="1001" name="Google" email="info@google.com" version="0" />
+	<member id="1002" name="UOL" email="info@uol.com.br" version="0" />
+	<member id="1003" name="Globo" email="info1@globo.com" version="0" />
+	<member id="1004" name="IG" email="info@ig.com.br" version="0" />
+	<!-- sites -->
+	<site id="1001" url="www.google.com" page_views="1000" owner_id="1001"
+		version="0" />
+	<site id="1002" url="www.uol.com.br" page_views="100" owner_id="1002"
+		version="0" />
+	<site id="1003" url="www.globo.com" page_views="100" owner_id="1003"
+		version="0" />
+	<site id="1004" url="g1.globo.com" page_views="100" owner_id="1003"
+		version="0" />
+	<site id="1005" url="www.ig.com.br" page_views="100" owner_id="1004"
+		version="0" />
+</dataset>
