@@ -241,7 +241,6 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>${com.h2database.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<!-- Servlet Spec -->
 		<dependency>
