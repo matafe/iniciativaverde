@@ -1,3 +1,3 @@
-The OpenShift `jbossews` cartridge documentation can be found at:
+Projecto Iniciativa Verde:
 
-https://github.com/openshift/origin-server/tree/master/cartridges/openshift-origin-cartridge-jbossews/README.md
+http://federicovignati.blogspot.com/
