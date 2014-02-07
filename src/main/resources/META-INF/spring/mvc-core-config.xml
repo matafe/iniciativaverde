@@ -7,8 +7,6 @@
 
 	<context:component-scan base-package="com.matafe.iniciativaverde.controller" />
 
-	<import resource="mvc-view-config.xml" />
-
 	<mvc:view-controller path="/" view-name="home" />
 
 	<mvc:annotation-driven />
@@ -26,33 +24,32 @@
 	<mvc:default-servlet-handler />
 
 	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource"
-		p:basename="messages/messages" p:defaultEncoding="UTF-8"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+		p:basenames="classpath:messages/messages" p:defaultEncoding="UTF-8"
 		p:fallbackToSystemLocale="false" />
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+			p:paramName="lang" />
+	</mvc:interceptors>
 
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
 		p:defaultLocale="pt" />
-
-	<bean id="localeChangeInterceptor"
-		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
-		p:paramName="lang" />
 
 	<!-- results into 'WEB-INF/pages/errorPage.jsp' -->
 	<bean
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"
 		p:defaultErrorView="errorPage" />
 
-	<!-- <mvc:resources mapping="/resources/**" location="/" /> <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
-		<property name="prefix"> <value>/WEB-INF/pages/</value> </property> <property 
-		name="suffix"> <value>.jsp</value> </property> </bean> <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" 
-		id="messageSource" p:basenames="WEB-INF/i18n/messages" p:defaultEncoding="UTF-8" 
-		p:fallbackToSystemLocale="false" /> <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"> 
-		<property name="defaultLocale" value="pt" /> </bean> <bean id="localeChangeInterceptor" 
-		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"> <property 
-		name="paramName" value="lang" /> </bean> <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"> 
-		<property name="interceptors"> <ref bean="localeChangeInterceptor" /> </property> 
-		</bean> <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" 
-		/> <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" 
-		p:defaultErrorView="errorPage" /> -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/pages/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
 </beans>

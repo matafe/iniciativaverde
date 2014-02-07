@@ -2,7 +2,8 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/context
@@ -10,7 +11,9 @@
            http://www.springframework.org/schema/tx
 		   http://www.springframework.org/schema/tx/spring-tx.xsd
 		   http://www.springframework.org/schema/jee 
-		   http://www.springframework.org/schema/jee/spring-jee.xsd">
+		   http://www.springframework.org/schema/jee/spring-jee.xsd
+		   http://www.springframework.org/schema/jdbc 
+		   http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
 	<context:property-placeholder location="classpath:persistence.properties" />
 
@@ -23,6 +26,13 @@
 		<property name="loadTimeWeaver">
 			<bean
 				class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+			</props>
 		</property>
 	</bean>
 	<bean id="jpaAdapter"
@@ -39,21 +49,25 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
+
+	<jdbc:initialize-database data-source="dataSource">
+		<jdbc:script location="classpath:import-iv.sql" />
+	</jdbc:initialize-database>
 <!-- 
 	<bean id="org.h2.tools.Server" class="org.h2.tools.Server"
 		factory-method="createTcpServer" init-method="start" destroy-method="stop">
 		<constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,8043" />
 	</bean>
-
 	<bean id="org.h2.tools.Server-WebServer" class="org.h2.tools.Server"
 		factory-method="createWebServer" init-method="start">
 		<constructor-arg value="-web,-webAllowOthers,-webPort,8081" />
 	</bean>
  -->	
-	<!-- <jee:jndi-lookup jndi-name="java:comp/env/jdbc/iniciativaverdeDS" id="dataSource" 
-		expected-type="javax.sql.DataSource" /> -->
-	<!-- <tx:jta-transaction-manager /> -->
-
+<!-- 
+	<jee:jndi-lookup jndi-name="java:comp/env/jdbc/iniciativaverdeDS"
+		id="dataSource" expected-type="javax.sql.DataSource" />
+	<tx:jta-transaction-manager />
+ -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>

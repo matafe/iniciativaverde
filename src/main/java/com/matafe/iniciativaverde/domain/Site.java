@@ -1,11 +1,18 @@
 package com.matafe.iniciativaverde.domain;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
@@ -33,12 +40,15 @@ public class Site extends BaseEntity {
 	private String url;
 
 	@NotNull
-	@Column(name="page_views", nullable = false)
+	@Column(name = "page_views", nullable = false)
 	private Long pageViews = 0L;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "OWNER_ID")
+	@JoinColumn(name = "owner_id")
 	private Member owner;
+
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "site", orphanRemoval = true)
+	private List<Certificate> certificates = new ArrayList<Certificate>(1);
 
 	@Version
 	private Long version;
@@ -104,6 +114,87 @@ public class Site extends BaseEntity {
 	 */
 	public Long getVersion() {
 		return version;
+	}
+
+	/**
+	 * @param certificate
+	 *            the certificate to add
+	 */
+	public void addSite(Certificate certificate) {
+		certificate.setSite(this);
+		this.certificates.add(certificate);
+	}
+
+	/**
+	 * @return the certificates
+	 */
+	public List<Certificate> getCertificates() {
+		return certificates;
+	}
+
+	/**
+	 * @return the last certificate
+	 */
+	public Certificate getLastCertificate() {
+		List<Certificate> list = getCertificates();
+		Collections.sort(list, new Comparator<Certificate>() {
+			@Override
+			public int compare(Certificate o1, Certificate o2) {
+				long t1 = o1.getValidDate().getTimeInMillis();
+				long t2 = o2.getValidDate().getTimeInMillis();
+				if (t2 > t1) {
+					return 1;
+				} else if (t1 > t2) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		});
+		Certificate last = null;
+
+		if (!list.isEmpty()) {
+			last = list.iterator().next();
+		}
+
+		return last;
+	}
+
+	/**
+	 * @return the last valid certificate
+	 */
+	public Certificate getLastValidCertificate() {
+		List<Certificate> list = getCertificates();
+		Collections.sort(list, new Comparator<Certificate>() {
+			@Override
+			public int compare(Certificate o1, Certificate o2) {
+				long t1 = o1.getValidDate().getTimeInMillis();
+				long t2 = o2.getValidDate().getTimeInMillis();
+				if (t2 > t1) {
+					return 1;
+				} else if (t1 > t2) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		});
+		Certificate lastValid = null;
+		for (Certificate cert : list) {
+			if (cert.isValid()) {
+				lastValid = cert;
+				break;
+			}
+		}
+		return lastValid;
+	}
+
+	/**
+	 * @param certificates
+	 *            the certificates to set
+	 */
+	public void setCertificates(List<Certificate> certificates) {
+		this.certificates = certificates;
 	}
 
 	@Override

@@ -42,7 +42,8 @@ public abstract class BaseEntity implements Serializable,
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("BaseEntity [id=").append(id).append("]");
+		builder.append(getClass().getSimpleName() + " [id=").append(id)
+				.append("]");
 		return builder.toString();
 	}
 

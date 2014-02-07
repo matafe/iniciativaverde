@@ -13,14 +13,14 @@
     <div class="container">
     
 		<jsp:include page="common/menu.jsp" >
-		   <jsp:param name="page" value="about" />
+		   <jsp:param name="activeMenu" value="about" />
 		</jsp:include>    
 
       <div class="container">
         <div class="page-header">
-          <h1>Sobre</h1>
+          <h1><fmt:message key="menu.about"/></h1>
         </div>
-        <p class="lead">Sobre...</p>
+        <p class="lead"><fmt:message key="menu.about"/>...</p>
       </div>
 
       <!-- Site footer -->

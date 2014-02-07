@@ -2,10 +2,9 @@ package com.matafe.iniciativaverde.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.matafe.iniciativaverde.domain.Member;
 import com.matafe.iniciativaverde.repository.MemberRepository;
@@ -35,6 +34,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	@Override
 	public Member findMember(Long id) {
 		return memberRepository.findOne(id);
@@ -60,6 +60,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	@Override
 	public List<Member> findAllMembers() {
 		return memberRepository.findAll();
@@ -68,6 +69,7 @@ public class MemberServiceImpl implements MemberService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	@Override
 	public List<Member> findAllMembers(Iterable<Long> ids) {
 		return memberRepository.findAll();

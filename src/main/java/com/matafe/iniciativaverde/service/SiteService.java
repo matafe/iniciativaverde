@@ -2,6 +2,7 @@ package com.matafe.iniciativaverde.service;
 
 import java.util.List;
 
+import com.matafe.iniciativaverde.domain.Certificate;
 import com.matafe.iniciativaverde.domain.Member;
 import com.matafe.iniciativaverde.domain.Site;
 
@@ -16,6 +17,8 @@ public interface SiteService {
 	Site createSite(Site site);
 
 	Site findSite(Long id);
+	
+	Site fetchSite(String url);
 
 	Site updateSite(Site site);
 
@@ -26,5 +29,7 @@ public interface SiteService {
 	List<Site> findAllSites(Iterable<Long> ids);
 
 	List<Site> findAllSites(Member member);
+	
+	List<Certificate> findCertificateBySite(Site site);
 
 }

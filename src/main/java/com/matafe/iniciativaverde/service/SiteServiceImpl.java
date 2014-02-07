@@ -2,13 +2,14 @@ package com.matafe.iniciativaverde.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.matafe.iniciativaverde.domain.Certificate;
 import com.matafe.iniciativaverde.domain.Member;
 import com.matafe.iniciativaverde.domain.Site;
+import com.matafe.iniciativaverde.repository.CertificateRepository;
 import com.matafe.iniciativaverde.repository.SiteRepository;
 
 /**
@@ -24,6 +25,9 @@ public class SiteServiceImpl implements SiteService {
 	@Autowired
 	private SiteRepository siteRepository;
 
+	@Autowired
+	private CertificateRepository certificateRepository;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -36,6 +40,7 @@ public class SiteServiceImpl implements SiteService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	@Override
 	public Site findSite(Long id) {
 		return siteRepository.findOne(id);
@@ -61,6 +66,7 @@ public class SiteServiceImpl implements SiteService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	@Override
 	public List<Site> findAllSites() {
 		return siteRepository.findAll();
@@ -69,6 +75,7 @@ public class SiteServiceImpl implements SiteService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	@Override
 	public List<Site> findAllSites(Iterable<Long> ids) {
 		return siteRepository.findAll();
@@ -77,9 +84,28 @@ public class SiteServiceImpl implements SiteService {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	@Override
 	public List<Site> findAllSites(Member member) {
 		return siteRepository.findByMember(member);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(readOnly = true)
+	@Override
+	public Site fetchSite(String url) {
+		return siteRepository.fetchSite(url);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(readOnly = true)
+	@Override
+	public List<Certificate> findCertificateBySite(Site site) {
+		return certificateRepository.findBySite(site);
 	}
 
 }

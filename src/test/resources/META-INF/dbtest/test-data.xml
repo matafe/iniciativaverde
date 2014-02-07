@@ -4,6 +4,7 @@
 	<member id="1002" name="UOL" email="info@uol.com.br" version="0" />
 	<member id="1003" name="Globo" email="info1@globo.com" version="0" />
 	<member id="1004" name="IG" email="info@ig.com.br" version="0" />
+
 	<!-- sites -->
 	<site id="1001" url="www.google.com" page_views="1000" owner_id="1001"
 		version="0" />
@@ -15,4 +16,13 @@
 		version="0" />
 	<site id="1005" url="www.ig.com.br" page_views="100" owner_id="1004"
 		version="0" />
+
+	<!-- certificate -->
+	<certificate id="1001" valid_date="2010-01-01" site_id="1002"
+		version="0" />
+	<certificate id="1002" valid_date="2014-01-01" site_id="1001"
+		version="0" />
+	<certificate id="1003" valid_date="2020-12-25" site_id="1001"
+		version="0" />
+
 </dataset>

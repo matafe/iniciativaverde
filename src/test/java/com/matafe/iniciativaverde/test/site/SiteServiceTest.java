@@ -1,5 +1,8 @@
 package com.matafe.iniciativaverde.test.site;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +16,8 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.matafe.iniciativaverde.domain.Certificate;
+import com.matafe.iniciativaverde.domain.Member;
 import com.matafe.iniciativaverde.domain.Site;
 import com.matafe.iniciativaverde.service.SiteService;
 
@@ -38,6 +43,43 @@ public class SiteServiceTest {
 	public void testFindById() {
 		Site site = siteService.findSite(1001L);
 		Assert.assertEquals("www.google.com", site.getUrl());
+	}
+
+	@Test
+	public void testFindCertificatesBySite() {
+		Site site = siteService.findSite(1001L);
+		List<Certificate> certificates = siteService
+				.findCertificateBySite(site);
+		Assert.assertEquals(2, certificates.size());
+	}
+
+	@Test
+	public void testFetchByUrl() {
+		String url = "www.uol.com.br";
+		Site site = siteService.fetchSite(url);
+		Assert.assertEquals(url, site.getUrl());
+		Member owner = site.getOwner();
+		Assert.assertNotNull(owner);
+		Assert.assertEquals("UOL", owner.getName());
+		List<Certificate> certificates = site.getCertificates();
+		Assert.assertNotNull(certificates);
+		Assert.assertFalse(certificates.isEmpty());
+		Assert.assertFalse(certificates.get(0).isValid());
+	}
+
+	@Test
+	public void testGetLastValid() {
+		String url = "www.google.com";
+		Site site = siteService.fetchSite(url);
+		List<Certificate> certificates = site.getCertificates();
+		Assert.assertNotNull(certificates);
+		Assert.assertEquals(2, certificates.size());
+		Assert.assertFalse(certificates.isEmpty());
+		Certificate lastValidCertificate = site.getLastValidCertificate();
+		Assert.assertNotNull(lastValidCertificate);
+		Assert.assertEquals("2020-12-25", new SimpleDateFormat("yyyy-MM-dd")
+				.format(lastValidCertificate.getValidDate().getTime()));
+
 	}
 
 	@Test

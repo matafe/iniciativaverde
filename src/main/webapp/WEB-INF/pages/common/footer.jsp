@@ -4,6 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-      <div class="footer">
-        <p>&copy; Iniciativa Verde 2014</p>
-      </div>
+<c:set var="currentYear" value="2014" />
+<spring:message code="footer.label" var="footerLabel" arguments="${currentYear}" htmlEscape="false" />
+
+<div class="footer">
+	<p>&copy; ${footerLabel}</p>
+</div>
